@@ -1,13 +1,18 @@
 import "./App.css";
-import logo from "./logo.png";
+import { Routes, Route } from "react-router-dom"
+import { Login, Signup, Home } from "./features";
+import { Navbar } from "./component/Navbar";
 
 function App() {
   return (
-   
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
-   
+    <div className="App">
+      <Navbar/>
+      <Routes>
+        <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<Signup />} />
+        <Route path="/home" element={<Home />} />
+    </Routes>
+    </div>
   );
 }
 
