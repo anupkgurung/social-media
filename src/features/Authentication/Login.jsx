@@ -1,7 +1,6 @@
-import { useNavigate } from "react-router-dom"
-import { Button } from "../../component";
+import { Link, useNavigate } from "react-router-dom"
+import { Button, Input } from "../../component";
 
-import { Input } from "../../component/Input" ;
 
 export const Login = () => {
 
@@ -35,8 +34,8 @@ export const Login = () => {
                             password?</a>
                     </div>
                     <Button caption={"Sign in"} />
-                    <p className="text-gray-800 mt-6 text-center">Not a member? <a href="#!"
-                        className="text-blue-600 hover:text-blue-700 focus:text-blue-700 transition duration-200 ease-in-out">Register</a>
+                    <p className="text-gray-800 mt-6 text-center">Not a member? 
+                        <Link to={"/signup"} className="text-blue-600 hover:text-blue-700 focus:text-blue-700 transition duration-200 ease-in-out">Register</Link>
                     </p>
                 </form>
             </div>
