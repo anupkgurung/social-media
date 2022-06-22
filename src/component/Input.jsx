@@ -1,4 +1,4 @@
-export const Input = ({type='',eleId='',placeHolder=''}) => {
+export const Input = ({type='',eleId='',placeHolder='',value=''}) => {
 
     switch(type){
         case "email":
@@ -11,7 +11,8 @@ export const Input = ({type='',eleId='',placeHolder=''}) => {
                                     focus:text-gray-700 focus:bg-white focus:border-blue-600 
                                     focus:outline-none" 
                                     id={eleId}
-                                    placeholder={placeHolder} />
+                                    placeholder={placeHolder} 
+                                    value={value}/>
             )
         case "checkbox":
             return (
