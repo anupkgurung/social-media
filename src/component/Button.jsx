@@ -1,4 +1,4 @@
-export const Button = ({caption=''}) => {
+export const Button = ({caption='',clickHandler=()=>{}}) => {
     return (
         <button type="submit"
             className="w-full px-6 py-2.5 bg-blue-600
@@ -7,7 +7,8 @@ export const Button = ({caption=''}) => {
                 rounded shadow-md
                 hover:bg-blue-700 hover:shadow-lg
                 focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
-                active:bg-blue-800 active:shadow-lg ">
+                active:bg-blue-800 active:shadow-lg "
+                onClick={clickHandler}>
             {caption}
         </button>
     )

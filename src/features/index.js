@@ -1,3 +1,5 @@
 export {Home} from "./Home/Home"
 export {Login,} from "./Authentication/Login"
 export {Signup} from "./Authentication/Signup"
+export {Authenticate} from "./Authentication/Authenticate"
+export {useAuth} from "./Authentication/authSlice"
