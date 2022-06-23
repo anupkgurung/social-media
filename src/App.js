@@ -9,8 +9,9 @@ function App() {
     {path:"login", element: <Login />},
     {path:"signup", element: <Signup />},
     {path:"/" ,element:<Authenticate/>,
-      children : 
+      children : [
         {path:"/", element: <Home />}
+      ]
     }
   ])
 

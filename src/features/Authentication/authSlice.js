@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import {_get, _post} from "../../service";
 
 const initialState = {
@@ -38,6 +37,19 @@ const authSlice = createSlice({
                 state.isLogin =true
             })
             .addCase(userSignup.rejected,(state,{payload})=> {
+                state.isLoading = false
+                state.isLogin =false
+                state.error = payload.response?.data?.errors[0]
+            })
+            .addCase(userLogin.pending,(state,{payload})=>{
+                state.isLoading = true
+            })
+            .addCase(userLogin.fulfilled,(state,{payload})=>{
+                state.isLoading = false
+                state.isLogin =true
+                state.userInfo = payload
+            })
+            .addCase(userLogin.rejected,(state,{payload})=>{
                 state.isLoading = false
                 state.isLogin =false
                 state.error = payload.response?.data?.errors[0]

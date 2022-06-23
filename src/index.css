@@ -1,6 +1,9 @@
+/* stylelint-disable no-invalid-position-at-import-rule */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap";
+@import "https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Round";
 
 body {
     margin: 0;
@@ -14,4 +17,21 @@ body {
   code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
+  }
+
+  .container-grid {
+    grid-template-areas: "left-aside main right-aside";
+    grid-template-columns: "20rem";
+  }
+  .left-aside {
+    grid-area: left-aside;
+  }
+
+  .main {
+    grid-area: main;
+    @apply mt-[4.2rem] md:mr-4 lg:mr-0 md:mt-[6.2rem] min-h-[calc(100vh-6.2rem)];
+  }
+
+  .right-aside {
+    grid-area: right-aside;
   }
