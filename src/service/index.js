@@ -1,1 +1,1 @@
-export {_get, _post} from "./AuthenticationService"
+export {_get, _post, _doPost, _delete} from "./AuthenticationService"
