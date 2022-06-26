@@ -6,11 +6,11 @@ export const RightSidebar = () => {
             <h4 className="font-semibold my-4 text-center">Suggestions</h4>
             <div className="flex items-center p-2 pt-3 mb-4 rounded-lg shadow border ">
                 <Link className="flex items-center" to="/">
-                    <img loading="lazy" src="https://res.cloudinary.com/dexubgbx0/image/upload/v1653736290/dan_o6nk9h.jpg" alt="dan-abramov"
+                    <img loading="lazy" src="https://raw.githubusercontent.com/anupkgurung/images/main/social/ayush.jpg" alt="dan-abramov"
                         className="w-10 h-10 mr-4 border object-cover object-top rounded-full flex-shrink-0 bg-gray-200" />
                     <div className="text-sm flex flex-col sm:text-base font-semibold">
-                        <span>Sunny Singh</span>
-                        <span className="hidden sm:inline text-gray-500 text-sm font-normal">@sunnysingh</span>
+                        <span>Ayush Gurung</span>
+                        <span className="hidden sm:inline text-gray-500 text-sm font-normal">@ayushgurung</span>
                     </div>
                 </Link>
                 <button data-tooltip="Follow" className="tooltip ml-auto">
