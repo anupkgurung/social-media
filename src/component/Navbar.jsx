@@ -1,12 +1,10 @@
 import { Link, NavLink } from "react-router-dom";
 
 export const Navbar = () => {
-  let activeStyle = {
-    textDecoration: "underline"
-  }
+ 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 w-full bg-white/60 border-b backdrop-blur-sm">
+      <nav className="fixed top-0 left-0 right-0 w-full bg-white/60 border-b backdrop-blur-sm z-[3]">
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
           <div className="relative flex items-center justify-between h-16">
             <div className="absolute inset-y-0 left-0 flex items-center">
@@ -40,9 +38,7 @@ export const Navbar = () => {
                   </button>
                 </div>
 
-
                 <div className=" sm:hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex="-1">
-
                   <Link to={"/"} className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">Your Profile</Link>
                   <Link to={"/"} className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-1">Settings</Link>
                   <Link to={"/"} className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">Sign out</Link>
@@ -55,6 +51,3 @@ export const Navbar = () => {
     </>
   )
 }
-
-
-{/* <NavLink className='text-4xl m-4' to="/home" style={({isActive})=>isActive ? activeStyle : undefined} >Home</NavLink> */ }

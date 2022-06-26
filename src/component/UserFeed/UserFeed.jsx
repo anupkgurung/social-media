@@ -15,7 +15,7 @@ export const UserFeed = ({ post }) => {
                         <div>
                             <span className="font-semibold flex">{post.firstName} {post.lastName}</span>
                             <span className="text-gray-500 text-sm font-normal flex items-center line-clamp-1">
-                                {post.username}
+                                @{post.username}
                                 <span className="mx-[6px] font-semibold">•</span>
                                 {new Date(post.updatedAt).toDateString()}
                             </span>

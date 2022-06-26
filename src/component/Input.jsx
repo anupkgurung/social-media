@@ -1,4 +1,4 @@
-export const Input = ({type='',eleId='',placeHolder='',value=''}) => {
+export const Input = ({type='',eleId='',placeHolder='',value="",onChangeHandler=()=>{}}) => {
 
     switch(type){
         case "email":
@@ -12,7 +12,8 @@ export const Input = ({type='',eleId='',placeHolder='',value=''}) => {
                                     focus:outline-none" 
                                     id={eleId}
                                     placeholder={placeHolder} 
-                                    value={value}/>
+                                    value={value}
+                                    onChange={onChangeHandler}/>
             )
         case "checkbox":
             return (
@@ -21,6 +22,7 @@ export const Input = ({type='',eleId='',placeHolder='',value=''}) => {
                                             checked:bg-blue-600 checked:border-blue-600 
                                             focus:outline-none transition duration-200 mt-1 
                                             align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                onChange={onChangeHandler}
                 />
             )
     }
