@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
-import { likePost, dislikePost, deletePost, editPost } from "../../features"
+import { likePost, dislikePost, deletePost, editPost, addToBookmark, deleteBookmark} from "../../features"
 
 export const UserFeed = ({ post }) => {
 
@@ -9,6 +9,8 @@ export const UserFeed = ({ post }) => {
     const [hasLike,setHasLike] = useState(false)
     const [hasEditPost,setHasEditPost] = useState(false)
     const [newPostData,setNewPostData] = useState({content:null,media:null})
+    const [isBookmarked, setIsBookmarked] = useState(false)
+    
     const dispatch =  useDispatch();
     
     const handleLikePost = (id) => {
@@ -39,6 +41,14 @@ export const UserFeed = ({ post }) => {
         }))
     }
 
+    const handleAddToBookmark = (id) => {
+        setIsBookmarked(isBookmarked => !isBookmarked)
+        if(!isBookmarked){
+            dispatch(addToBookmark(id))
+        }else{
+            dislikePost(deleteBookmark(id))
+        }
+    }
     return (
         <div>
             <article className="border rounded-lg my-4 md:mt-0 mx-auto shadow-md bg-white">
@@ -96,7 +106,7 @@ export const UserFeed = ({ post }) => {
                         <div className="flex items-center w-16">
                             <button className="w-10 h-10 flex items-center justify-center rounded-full hover:text-blue-500 hover:bg-blue-100"
                                 onClick={()=>handleLikePost(post._id)}>
-                                <span className={`${hasLike ? "material-icons-outlined":"material-icons-outlined"} text-xl sm:text-[22px]`}>favorite_border</span>
+                                <span className="material-icons-outlined text-xl sm:text-[22px]">{hasLike ? 'favorite' : 'favorite_border'}</span>
                             </button>
                             <span className="text-sm ml-1">{post.likes.likeCount}</span>
                         </div>
@@ -108,8 +118,10 @@ export const UserFeed = ({ post }) => {
                         </div>
                     </div>
                     <div>
-                        <button data-tooltip="Bookmark" className="tooltip w-10 h-10 flex items-center justify-center rounded-full hover:text-blue-500 hover:bg-blue-100">
-                            <span className="material-icons-outlined text-xl sm:text-[22px]">bookmark_border</span>
+                        <button className="w-10 h-10 flex items-center justify-center rounded-full hover:text-blue-500 hover:bg-blue-100" 
+                            onClick={()=>handleAddToBookmark(post._id)}
+                        >
+                            <span className="material-icons-outlined text-xl sm:text-[22px]">{isBookmarked ? 'bookmark' : 'bookmark_border'}</span>
                         </button>
                     </div>
                 </section>
