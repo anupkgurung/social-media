@@ -19,21 +19,21 @@ export const getPost = createAsyncThunk(
 export const getUserPosts = createAsyncThunk(
     "posts/getUserPosts",
     (username,{rejectWithValue})=>{
-        return _doPost(`/api/posts/${username}`,rejectWithValue)
+        return _get(`/api/posts/user/${username}`,rejectWithValue)
     }
 )
 
 export const createPost = createAsyncThunk(
     "posts/createPost",
-    (post,{rejectWithValue})=>{
-        return _post(`/api/user/posts/`,{post},rejectWithValue)
+    (postData,{rejectWithValue})=>{
+        return _post(`/api/posts/`,{postData},rejectWithValue)
     }
 )
 
 export const editPost = createAsyncThunk(
     "posts/editPost",
-    (post,{rejectWithValue})=>{
-        return _post(`/api/user/posts/`,{post},rejectWithValue)
+    ({postId,postData},{rejectWithValue})=>{
+        return _post(`/api/posts/edit/${postId}`,{postData},rejectWithValue)
     }
 )
 
@@ -54,7 +54,7 @@ export const dislikePost = createAsyncThunk(
 export const deletePost = createAsyncThunk(
     "posts/deletePost",
     (postId,{rejectWithValue})=>{
-        return _delete(`/api/user/posts/${postId}`,rejectWithValue)
+        return _delete(`/api/posts/${postId}`,rejectWithValue)
     }
 )
 
@@ -80,8 +80,8 @@ export const postSlice = createSlice({
             .addCase(getPost.pending,(state,action)=>{
                 state.error = ""
             })
-            .addCase(getPost.fulfilled,(state,action)=>{
-                state.posts = action?.payload.data
+            .addCase(getPost.fulfilled,(state,{payload})=>{
+                state.posts = payload?.data?.posts
             })
             .addCase(getPost.rejected,(state,action)=>{
                 state.error = action.payload?.response?.data?.errors[0]
@@ -90,8 +90,8 @@ export const postSlice = createSlice({
             .addCase(getUserPosts.pending,(state,action)=>{
                 state.error = ""
             })
-            .addCase(getUserPosts.fulfilled,(state,action)=>{
-                state.error = action.payload?.data
+            .addCase(getUserPosts.fulfilled,(state,{payload})=>{
+                state.posts = payload?.data?.posts
             })
             .addCase(getUserPosts.rejected,(state,action)=>{
                 state.error = action.payload?.response?.data?.errors[0]
@@ -100,8 +100,8 @@ export const postSlice = createSlice({
             .addCase(createPost.pending,(state,action)=>{
                 state.error = ""
             })
-            .addCase(createPost.fulfilled,(state,action)=>{
-                state.posts = action.payload?.data
+            .addCase(createPost.fulfilled,(state,{payload})=>{
+                state.posts = payload?.data?.posts
             })
             .addCase(createPost.rejected,(state,action)=>{
                 state.error = action.payload?.response?.data?.errors[0]
@@ -110,8 +110,8 @@ export const postSlice = createSlice({
             .addCase(editPost.pending,(state,action)=>{
                 state.error = ""
             })
-            .addCase(editPost.fulfilled,(state,action)=>{
-                state.posts = action.payload?.data
+            .addCase(editPost.fulfilled,(state,{payload})=>{
+                state.posts = payload?.data?.posts
             })
             .addCase(editPost.rejected,(state,action)=>{
                 state.error = action.payload?.response?.data?.errors[0]
@@ -120,8 +120,8 @@ export const postSlice = createSlice({
             .addCase(likePost.pending,(state,action)=>{
                 state.error = ""
             })
-            .addCase(likePost.fulfilled,(state,action)=>{
-                state.posts = action.payload?.data
+            .addCase(likePost.fulfilled,(state,{payload})=>{
+                state.posts = payload?.data?.posts
             })
             .addCase(likePost.rejected,(state,action)=>{
                 state.error = action.payload?.response?.data?.errors[0]
@@ -130,8 +130,8 @@ export const postSlice = createSlice({
             .addCase(dislikePost.pending,(state,action)=>{
                 state.error = ""
             })
-            .addCase(dislikePost.fulfilled,(state,action)=>{
-                state.posts = action.payload?.data
+            .addCase(dislikePost.fulfilled,(state,{payload})=>{
+                state.posts = payload?.data?.posts
             })
             .addCase(dislikePost.rejected,(state,action)=>{
                 state.error = action.payload?.response?.data?.errors[0]
@@ -140,11 +140,11 @@ export const postSlice = createSlice({
             .addCase(deletePost.pending,(state,action)=>{
                 state.error = ""
             })
-            .addCase(deletePost.fulfilled,(state,action)=>{
-                state.posts = action.payload?.data
+            .addCase(deletePost.fulfilled,(state,{payload})=>{
+                state.posts = payload?.data?.posts
             })
-            .addCase(deletePost.rejected,(state,action)=>{
-                state.error = action.payload?.response?.data?.errors[0]
+            .addCase(deletePost.rejected,(state,{payload})=>{
+                state.error = payload?.response?.data?.errors[0]
             })
     }
 })

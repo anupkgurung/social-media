@@ -1,9 +1,16 @@
-import { NavLink, Link } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { NavLink, Link } from "react-router-dom";
+import { logoutUser } from "../../features";
 
 export const LeftSidebar = () => {
     let activeStyle = {
         borderBottom : "2px solid #0000ff80",
         borderRadius : "5px"
+    }
+    const dispatch = useDispatch()
+    
+    const logout = () => {
+        dispatch(logoutUser())
     }
 
     return (
@@ -64,8 +71,8 @@ export const LeftSidebar = () => {
                 
                 <li className="mt-36 md:block mx-2">
                     <Link to="/login">
-                        <button className="w-full flex items-center justify-center py-2 px-4 border rounded border-blue-400 text-blue-500 text-sm">
-                            <span class="material-icons pr-2">logout</span>
+                        <button className="w-full flex items-center justify-center py-2 px-4 border rounded border-blue-400 text-blue-500 text-sm" onClick={logout}>
+                            <span className="material-icons pr-2">logout</span>
                                 Logout
                         </button>
                     </Link>

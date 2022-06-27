@@ -1,9 +1,43 @@
 import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
+import { likePost, dislikePost, deletePost, editPost } from "../../features"
 
 export const UserFeed = ({ post }) => {
 
     const [showPostMenu, setShowPostMenu] = useState(false)
+    const [hasLike,setHasLike] = useState(false)
+    const [hasEditPost,setHasEditPost] = useState(false)
+    const [newPostData,setNewPostData] = useState({content:null,media:null})
+    const dispatch =  useDispatch();
+    
+    const handleLikePost = (id) => {
+        setHasLike(hasLike => !hasLike)
+        if(!hasLike){
+            dispatch(likePost(id))
+        }else{
+            dispatch(dislikePost(id))
+        }
+    }
+    
+    const handleDeletePost = (id) => {
+        setShowPostMenu(showPostMenu => !showPostMenu)
+        dispatch(deletePost(id))
+    }
+    const enableEditPost = () => {
+        setHasEditPost(hasEditPost => !hasEditPost)
+        setShowPostMenu(showPostMenu => !showPostMenu)
+    }
+    const handleEditPost = (id) => {
+        dispatch(editPost({postId : id, postData : newPostData}))
+        setHasEditPost(hasEditPost => !hasEditPost)
+    }
+    const handleEditPostData = (e) => {
+        setNewPostData(newPostData => ({
+            ...newPostData,
+            [e.target.id] : e.target.value
+        }))
+    }
 
     return (
         <div>
@@ -16,7 +50,7 @@ export const UserFeed = ({ post }) => {
                             <span className="font-semibold flex">{post.firstName} {post.lastName}</span>
                             <span className="text-gray-500 text-sm font-normal flex items-center line-clamp-1">
                                 @{post.username}
-                                <span className="mx-[6px] font-semibold">•</span>
+                                <span className="mx-[6px] font-semibold">|</span>
                                 {new Date(post.updatedAt).toDateString()}
                             </span>
                         </div>
@@ -24,19 +58,16 @@ export const UserFeed = ({ post }) => {
                     <div className="ml-auto relative">
                         <button className="mx-2 w-10 h-10 flex items-center justify-center rounded-full hover:cursor-pointer hover:text-blue-500 hover:bg-blue-100"
                             onClick={() => setShowPostMenu(showPostMenu => !showPostMenu)}>
-                            <span className="material-icons-outlined text-2xl">more_horiz</span>
+                            <span className="material-icons-outlined text-2xl">more_vert</span>
                         </button>
                         {showPostMenu && (<div class="absolute top-6 right-4 z-[1] bg-white shadow-xl flex flex-col p-2 border rounded-lg">
-                            <button class="py-2 px-2 text-sm flex hover:bg-blue-100 rounded">
+                            <button class="py-2 px-2 text-sm flex hover:bg-blue-100 rounded" onClick={()=>enableEditPost()}>
                                 <span class="material-icons-outlined text-xl">edit</span>
-                                
                             </button>
-                            <button class=" py-2 px-2 text-sm flex hover:bg-blue-100 rounded">
+                            <button class=" py-2 px-2 text-sm flex hover:bg-blue-100 rounded" onClick={()=>handleDeletePost(post._id)}>
                                 <span class=" material-icons-outlined text-xl">delete</span>
                             </button>
                         </div>)}
-
-
                     </div>
                 </section>
 
@@ -45,29 +76,35 @@ export const UserFeed = ({ post }) => {
                         <img className="cursor-pointer mt-3 mb-1 max-h-[25rem] bg-gray-200"
                             src={post.media.img} alt="usermedia" />}
 
-                    {post.content && <p className="w-full py-2 px-5 text-sm lg:text-base cursor-pointer my-2 text-justify">
+                    {post.content && !hasEditPost && <p className="w-full py-2 px-5 text-sm lg:text-base cursor-pointer my-2 text-justify">
                         {post.content}
                     </p>}
+                    {hasEditPost && (
+                        <div className="w-full p-2 flex flex-col">
+                            <textarea id="content" className="w-full py-2 px-5 text-sm lg:text-base outline-blue-400 rounded border border-blue-400 my-2 text-justify"
+                                onChange={handleEditPostData}
+                            >{post.content}</textarea>
+                            <button className="border py-1 px-4 text-sm border-blue-400 rounded font-semibold ml-auto hover:bg-blue-400 "
+                                onClick={()=>handleEditPost(post._id)}
+                            >save</button>
+                        </div>
+                    )}
                 </section>
 
                 <section className="flex flex-row items-center justify-between py-2 mx-5">
                     <div className="flex text-gray-900">
                         <div className="flex items-center w-16">
-                            <button className="w-10 h-10 flex items-center justify-center rounded-full hover:text-blue-500 hover:bg-blue-100 ">
-                                <span className="material-icons-outlined text-xl sm:text-[22px]">thumb_up</span>
+                            <button className="w-10 h-10 flex items-center justify-center rounded-full hover:text-blue-500 hover:bg-blue-100"
+                                onClick={()=>handleLikePost(post._id)}>
+                                <span className={`${hasLike ? "material-icons-outlined":"material-icons-outlined"} text-xl sm:text-[22px]`}>favorite_border</span>
                             </button>
-                            <span className="text-sm ml-1">0</span>
+                            <span className="text-sm ml-1">{post.likes.likeCount}</span>
                         </div>
                         <div className="flex items-center w-16">
                             <button className="w-10 h-10 flex items-center justify-center rounded-full hover:text-blue-500 hover:bg-blue-100">
                                 <span className="material-icons-outlined text-xl sm:text-[22px]">comment</span>
                             </button>
                             <span className="text-sm ml-1">0</span>
-                        </div>
-                        <div className="flex items-center w-16">
-                            <button className="w-10 h-10 flex items-center justify-center rounded-full hover:text-blue-500 hover:bg-blue-100">
-                                <span className="material-icons-outlined text-xl mr-[2px] sm:text-[22px]">share</span>
-                            </button>
                         </div>
                     </div>
                     <div>
