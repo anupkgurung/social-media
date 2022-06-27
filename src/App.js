@@ -1,6 +1,6 @@
 import "./App.css";
 import { useRoutes } from "react-router-dom"
-import { Login, Signup, Home, Authenticate } from "./features";
+import { Login, Signup, Home, Authenticate, Explore, Bookmark, Profile } from "./features";
 import { Navbar } from "./component/Navbar";
 
 function App() {
@@ -10,7 +10,10 @@ function App() {
     {path:"signup", element: <Signup />},
     {path:"/" ,element:<Authenticate/>,
       children : [
-        {path:"/", element: <Home />}
+        {path:"/", element: <Home />},
+        {path:"/explore", element: <Explore />},
+        {path:"/bookmark", element: <Bookmark />},
+        {path:"/profile", element: <Profile />}
       ]
     }
   ])
