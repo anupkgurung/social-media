@@ -4,57 +4,77 @@ import { _get, _post, _doPost, _delete } from "../../service";
 
 export const getAllPosts = createAsyncThunk(
     "posts/getAllPosts",
-    (_,{rejectWithValue})=>{
-        return _get("/api/posts",rejectWithValue)
+    async(_,{rejectWithValue})=>{
+       try {
+        const {data}  = await _get("/api/posts",rejectWithValue)
+        return data
+       } catch (error) {
+           rejectWithValue(error)
+       }
     }
 )
 
 export const getPost = createAsyncThunk(
     "posts/getPost",
-    (postId,{rejectWithValue})=>{
-        return _doPost(`/api/posts/${postId}`,rejectWithValue)
+    async(postId,{rejectWithValue})=>{
+        try {
+            const {data} = await _doPost(`/api/posts/${postId}`,rejectWithValue)
+            return data
+        } catch (error) {
+            rejectWithValue(error)
+        }
     }
 )
 
 export const getUserPosts = createAsyncThunk(
     "posts/getUserPosts",
-    (username,{rejectWithValue})=>{
-        return _get(`/api/posts/user/${username}`,rejectWithValue)
+    async(username,{rejectWithValue})=>{
+        try {
+            const {data} = await _get(`/api/posts/user/${username}`,rejectWithValue)
+            return data
+        } catch (error) {
+            return rejectWithValue(error)
+        }
     }
 )
 
 export const createPost = createAsyncThunk(
     "posts/createPost",
-    (postData,{rejectWithValue})=>{
-        return _post(`/api/posts/`,{postData},rejectWithValue)
+    async(postData,{rejectWithValue})=>{
+        const {data} = await _post(`/api/posts/`,{postData},rejectWithValue)
+        return data
     }
 )
 
 export const editPost = createAsyncThunk(
     "posts/editPost",
-    ({postId,postData},{rejectWithValue})=>{
-        return _post(`/api/posts/edit/${postId}`,{postData},rejectWithValue)
+    async({postId,postData},{rejectWithValue})=>{
+        const {data} = await _post(`/api/posts/edit/${postId}`,{postData},rejectWithValue)
+        return data
     }
 )
 
 export const likePost = createAsyncThunk(
     "posts/likePost",
-    (postId,{rejectWithValue})=>{
-        return _doPost(`/api/posts/like/${postId}`,rejectWithValue)
+    async(postId,{rejectWithValue})=>{
+        const { data : {posts} } = await _doPost(`/api/posts/like/${postId}`,rejectWithValue)
+        return posts
     }
 )
 
 export const dislikePost = createAsyncThunk(
     "posts/dislikePost",
-    (postId,{rejectWithValue})=>{
-        return _doPost(`/api/posts/dislike/${postId}`,rejectWithValue)
+    async(postId,{rejectWithValue})=>{
+        const {data} = await _doPost(`/api/posts/dislike/${postId}`,rejectWithValue)
+        return data
     }
 )
 
 export const deletePost = createAsyncThunk(
     "posts/deletePost",
-    (postId,{rejectWithValue})=>{
-        return _delete(`/api/posts/${postId}`,rejectWithValue)
+    async(postId,{rejectWithValue})=>{
+        const {data} =await _delete(`/api/posts/${postId}`,rejectWithValue)
+        return data
     }
 )
 
@@ -71,7 +91,7 @@ export const postSlice = createSlice({
                 state.error = ""
             })
             .addCase(getAllPosts.fulfilled,(state,{payload})=>{
-                state.posts = payload?.data?.posts
+                state.posts = payload?.posts
             })
             .addCase(getAllPosts.rejected,(state,action)=>{
                 state.error = action.payload?.response?.data?.errors[0]
@@ -81,7 +101,7 @@ export const postSlice = createSlice({
                 state.error = ""
             })
             .addCase(getPost.fulfilled,(state,{payload})=>{
-                state.posts = payload?.data?.posts
+                state.posts = payload?.posts
             })
             .addCase(getPost.rejected,(state,action)=>{
                 state.error = action.payload?.response?.data?.errors[0]
@@ -91,7 +111,7 @@ export const postSlice = createSlice({
                 state.error = ""
             })
             .addCase(getUserPosts.fulfilled,(state,{payload})=>{
-                state.posts = payload?.data?.posts
+                state.posts = payload?.posts.reverse()
             })
             .addCase(getUserPosts.rejected,(state,action)=>{
                 state.error = action.payload?.response?.data?.errors[0]
@@ -101,7 +121,7 @@ export const postSlice = createSlice({
                 state.error = ""
             })
             .addCase(createPost.fulfilled,(state,{payload})=>{
-                state.posts = payload?.data?.posts
+                state.posts = payload?.posts.reverse()
             })
             .addCase(createPost.rejected,(state,action)=>{
                 state.error = action.payload?.response?.data?.errors[0]
@@ -111,7 +131,7 @@ export const postSlice = createSlice({
                 state.error = ""
             })
             .addCase(editPost.fulfilled,(state,{payload})=>{
-                state.posts = payload?.data?.posts
+                state.posts = payload?.posts
             })
             .addCase(editPost.rejected,(state,action)=>{
                 state.error = action.payload?.response?.data?.errors[0]
@@ -121,7 +141,7 @@ export const postSlice = createSlice({
                 state.error = ""
             })
             .addCase(likePost.fulfilled,(state,{payload})=>{
-                state.posts = payload?.data?.posts
+                state.posts = payload
             })
             .addCase(likePost.rejected,(state,action)=>{
                 state.error = action.payload?.response?.data?.errors[0]
@@ -131,7 +151,7 @@ export const postSlice = createSlice({
                 state.error = ""
             })
             .addCase(dislikePost.fulfilled,(state,{payload})=>{
-                state.posts = payload?.data?.posts
+                state.posts = payload?.posts
             })
             .addCase(dislikePost.rejected,(state,action)=>{
                 state.error = action.payload?.response?.data?.errors[0]
@@ -141,7 +161,7 @@ export const postSlice = createSlice({
                 state.error = ""
             })
             .addCase(deletePost.fulfilled,(state,{payload})=>{
-                state.posts = payload?.data?.posts
+                state.posts = payload?.posts
             })
             .addCase(deletePost.rejected,(state,{payload})=>{
                 state.error = payload?.response?.data?.errors[0]

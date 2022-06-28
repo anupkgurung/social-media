@@ -1,52 +1,48 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
-import { likePost, dislikePost, deletePost, editPost, addToBookmark, deleteBookmark} from "../../features"
+import { likePost, dislikePost, deletePost, editPost, addToBookmark, deleteBookmark, useUser } from "../../features"
 
 export const UserFeed = ({ post }) => {
 
-    const [showPostMenu, setShowPostMenu] = useState(false)
-    const [hasLike,setHasLike] = useState(false)
-    const [hasEditPost,setHasEditPost] = useState(false)
-    const [newPostData,setNewPostData] = useState({content:null,media:null})
-    const [isBookmarked, setIsBookmarked] = useState(false)
-    
-    const dispatch =  useDispatch();
-    
+    const [hasEditPost, setHasEditPost] = useState(false)
+    const [newPostData, setNewPostData] = useState({ content: null, media: null })
+
+    const { bookmarks } = useUser()
+    const isBookmarked = bookmarks?.some(obj => obj._id === post._id)
+    const hasLike = post.likes.likeCount > 0
+    const dispatch = useDispatch();
+
     const handleLikePost = (id) => {
-        setHasLike(hasLike => !hasLike)
-        if(!hasLike){
+        if (!hasLike) {
             dispatch(likePost(id))
-        }else{
+        } else {
             dispatch(dislikePost(id))
         }
     }
-    
+
     const handleDeletePost = (id) => {
-        setShowPostMenu(showPostMenu => !showPostMenu)
         dispatch(deletePost(id))
     }
     const enableEditPost = () => {
         setHasEditPost(hasEditPost => !hasEditPost)
-        setShowPostMenu(showPostMenu => !showPostMenu)
     }
     const handleEditPost = (id) => {
-        dispatch(editPost({postId : id, postData : newPostData}))
+        dispatch(editPost({ postId: id, postData: newPostData }))
         setHasEditPost(hasEditPost => !hasEditPost)
     }
     const handleEditPostData = (e) => {
         setNewPostData(newPostData => ({
             ...newPostData,
-            [e.target.id] : e.target.value
+            [e.target.id]: e.target.value
         }))
     }
 
     const handleAddToBookmark = (id) => {
-        setIsBookmarked(isBookmarked => !isBookmarked)
-        if(!isBookmarked){
+        if (!isBookmarked) {
             dispatch(addToBookmark(id))
-        }else{
-            dislikePost(deleteBookmark(id))
+        } else {
+            dispatch(deleteBookmark(id))
         }
     }
     return (
@@ -65,27 +61,12 @@ export const UserFeed = ({ post }) => {
                             </span>
                         </div>
                     </Link>
-                    <div className="ml-auto relative">
-                        <button className="mx-2 w-10 h-10 flex items-center justify-center rounded-full hover:cursor-pointer hover:text-blue-500 hover:bg-blue-100"
-                            onClick={() => setShowPostMenu(showPostMenu => !showPostMenu)}>
-                            <span className="material-icons-outlined text-2xl">more_vert</span>
-                        </button>
-                        {showPostMenu && (<div class="absolute top-6 right-4 z-[1] bg-white shadow-xl flex flex-col p-2 border rounded-lg">
-                            <button class="py-2 px-2 text-sm flex hover:bg-blue-100 rounded" onClick={()=>enableEditPost()}>
-                                <span class="material-icons-outlined text-xl">edit</span>
-                            </button>
-                            <button class=" py-2 px-2 text-sm flex hover:bg-blue-100 rounded" onClick={()=>handleDeletePost(post._id)}>
-                                <span class=" material-icons-outlined text-xl">delete</span>
-                            </button>
-                        </div>)}
-                    </div>
                 </section>
 
                 <section className="flex flex-col items-center justify-center">
                     {post.media?.img &&
                         <img className="cursor-pointer mt-3 mb-1 max-h-[25rem] bg-gray-200"
                             src={post.media.img} alt="usermedia" />}
-
                     {post.content && !hasEditPost && <p className="w-full py-2 px-5 text-sm lg:text-base cursor-pointer my-2 text-justify">
                         {post.content}
                     </p>}
@@ -95,7 +76,7 @@ export const UserFeed = ({ post }) => {
                                 onChange={handleEditPostData}
                             >{post.content}</textarea>
                             <button className="border py-1 px-4 text-sm border-blue-400 rounded font-semibold ml-auto hover:bg-blue-400 "
-                                onClick={()=>handleEditPost(post._id)}
+                                onClick={() => handleEditPost(post._id)}
                             >save</button>
                         </div>
                     )}
@@ -105,7 +86,7 @@ export const UserFeed = ({ post }) => {
                     <div className="flex text-gray-900">
                         <div className="flex items-center w-16">
                             <button className="w-10 h-10 flex items-center justify-center rounded-full hover:text-blue-500 hover:bg-blue-100"
-                                onClick={()=>handleLikePost(post._id)}>
+                                onClick={() => handleLikePost(post._id)}>
                                 <span className="material-icons-outlined text-xl sm:text-[22px]">{hasLike ? 'favorite' : 'favorite_border'}</span>
                             </button>
                             <span className="text-sm ml-1">{post.likes.likeCount}</span>
@@ -116,10 +97,20 @@ export const UserFeed = ({ post }) => {
                             </button>
                             <span className="text-sm ml-1">0</span>
                         </div>
+                        <div className="flex items-center w-14">
+                            <button className="w-10 h-10 flex items-center justify-center hover:bg-blue-100 rounded-full hover:text-blue-500" onClick={() => enableEditPost()}>
+                                <span className="material-icons-outlined text-xl sm:text-[22px]">edit</span>
+                            </button>
+                        </div>
+                        <div className="flex items-center w-16">
+                            <button className="w-10 h-10 flex items-center justify-center hover:bg-blue-100 rounded-full hover:text-blue-500" onClick={() => handleDeletePost(post._id)}>
+                                <span className=" material-icons-outlined text-xl sm:text-[22px]">delete</span>
+                            </button>
+                        </div>
                     </div>
                     <div>
-                        <button className="w-10 h-10 flex items-center justify-center rounded-full hover:text-blue-500 hover:bg-blue-100" 
-                            onClick={()=>handleAddToBookmark(post._id)}
+                        <button className="w-10 h-10 flex items-center justify-center rounded-full hover:text-blue-500 hover:bg-blue-100"
+                            onClick={() => handleAddToBookmark(post._id)}
                         >
                             <span className="material-icons-outlined text-xl sm:text-[22px]">{isBookmarked ? 'bookmark' : 'bookmark_border'}</span>
                         </button>

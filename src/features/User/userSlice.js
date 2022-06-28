@@ -5,29 +5,33 @@ import { _get, _post, _doPost, _delete } from "../../service";
 
 export const getAllUser = createAsyncThunk(
     "user/getAllUser",
-    (_,{rejectWithValue})=>{
-        return _get("/api/users",rejectWithValue)
+    async(_,{rejectWithValue})=>{
+        const {data} = await _get("/api/users",rejectWithValue)
+        return data
     }
 )
 
 export const getBookmarks = createAsyncThunk(
     "user/getBookmarks",
-    (_,{rejectWithValue})=>{
-        return _get("/api/users/bookmark/",rejectWithValue)
+    async(_,{rejectWithValue})=>{
+        const {data} = await _get("/api/users/bookmark/",rejectWithValue)
+        return data
     }
 )
 
 export const addToBookmark = createAsyncThunk(
     "user/addToBookmark",
-    (postId,{rejectWithValue})=>{
-        return _doPost(`/api/users/bookmark/${postId}`,rejectWithValue)
+    async(postId,{rejectWithValue})=>{
+        const {data : {bookmarks}} = await _doPost(`/api/users/bookmark/${postId}`,rejectWithValue)
+        return bookmarks
     }
 )
 
 export const deleteBookmark = createAsyncThunk(
     "user/deleteBookmark",
-    (postId,{rejectWithValue})=>{
-        return _delete(`/api/users/remove-bookmark/${postId}`,rejectWithValue)
+    async(postId,{rejectWithValue})=>{
+        const {data} = await _delete(`/api/users/remove-bookmark/${postId}`,rejectWithValue)
+        return data
     }
 )
 const userSlice = createSlice({
@@ -47,7 +51,7 @@ const userSlice = createSlice({
         })
         .addCase(getAllUser.fulfilled,(state,{payload})=>{
             state.isLoading = false
-            state.user = payload?.data.users
+            state.user = payload?.users
         })
         .addCase(getAllUser.rejected,(state,{payload})=>{
             state.error = payload?.response?.data?.errors[0]
@@ -58,7 +62,7 @@ const userSlice = createSlice({
         })
         .addCase(getBookmarks.fulfilled,(state,{payload})=>{
             state.isLoading = false
-            state.bookmarks = payload?.data?.booksmarks
+            state.bookmarks = payload?.bookmarks
         })
         .addCase(getBookmarks.rejected,(state,{payload})=>{
             state.error = payload?.response?.data?.errors[0]
@@ -69,7 +73,7 @@ const userSlice = createSlice({
         })
         .addCase(addToBookmark.fulfilled,(state,{payload})=>{
             state.isLoading = false
-            state.bookmarks = payload?.data?.bookmarks
+            state.bookmarks = payload
         })
         .addCase(addToBookmark.rejected,(state,{payload})=>{
             state.error = payload?.response?.data?.errors[0]
@@ -80,7 +84,7 @@ const userSlice = createSlice({
         })
         .addCase(deleteBookmark.fulfilled,(state,{payload})=>{
             state.isLoading = false
-            state.bookmarks = payload?.data?.bookmarks
+            state.bookmarks = payload?.bookmarks
         })
         .addCase(deleteBookmark.rejected,(state,{payload})=>{
             state.error = payload?.response?.data?.errors[0]
