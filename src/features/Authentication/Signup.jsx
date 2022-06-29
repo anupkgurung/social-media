@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Input, Navigate } from "../../component";
@@ -11,19 +11,24 @@ export const Signup = () => {
     const dispatch = useDispatch()
     const location = useLocation()
     const navigate = useNavigate()
+    
     const initialSingupData = {
-        firstName : 'Yaku',
-        lastName : "zona",
-        username:"abc@gmail.com",
-        password : '1234'
+        firstName : null,
+        lastName : null,
+        username:null,
+        password : null
     }
+    const [credentials, setCredentials] = useState(initialSingupData);
 
+    const changeHandler = (e) => {
+        setCredentials(credentials => ({
+            ...credentials,
+            [e.target.id] : e.target.value
+        }))
+    }
     const signup = (e) => {
-       
         e.preventDefault()
-        dispatch(userSignup(initialSingupData))
-        //Navigate(location)
-       
+        dispatch(userSignup(credentials))
     }
 
     useEffect(()=>{
@@ -39,20 +44,23 @@ export const Signup = () => {
                         <Input type={"text"}
                             eleId={"firstName"}
                             placeHolder={"First name"}
-                            value={initialSingupData.firstName} />
+                            value={initialSingupData.firstName} 
+                            onChangeHandler={changeHandler}/>
                     </div>
                     <div className="form-group mb-6">
                         <Input type={"text"}
-                            id={"lastName"}
+                            eleId={"lastName"}
                             placeHolder={"Last name"} 
-                            value={initialSingupData.lastName} />
+                            value={initialSingupData.lastName} 
+                            onChangeHandler={changeHandler}/>
                     </div>
                 </div>
                 <div className="form-group mb-6">
                     <Input type={"email"}
-                        eleId={'email'}
+                        eleId={'username'}
                         placeHolder={"Enter email"}
                         value={initialSingupData.username}
+                        onChangeHandler={changeHandler}
                     />
                 </div>
                 <div className="form-group mb-6">
@@ -60,6 +68,7 @@ export const Signup = () => {
                         eleId={'password'}
                         placeHolder={"Password"}
                         value={initialSingupData.password}
+                        onChangeHandler={changeHandler}
                     />
                 </div>
                 <div className="form-group form-check flex mb-6">

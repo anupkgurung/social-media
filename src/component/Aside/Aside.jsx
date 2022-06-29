@@ -19,13 +19,13 @@ export const Aside = (sidebar) =>{
 
     if(aside === "left"){
         return (
-            <aside className="left-aside md:border w-6/12">
+            <aside className="left-aside md:border w-[40%]">
                 <LeftSidebar />
             </aside>
         )
     }else if(aside === "right"){
         return (
-            <aside className="right-aside border-l w-6/12 py-2 px-2 relative">
+            <aside className="right-aside border-l w-[45%] py-2 px-2 relative">
             <div className="fixed p-4 w-80">
                 <h4 className="font-semibold my-4 text-center h-max md:mt-[4.2rem]">Your might know</h4>
                 {user.filter(({username})=> username !== userInfo.username).map((post,id)=>(
