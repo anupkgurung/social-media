@@ -13,7 +13,7 @@ export const posts = [
       "Hyy what is up",
     media : {},
       likes: {
-      likeCount: 0,
+      likeCount: 1,
       likedBy: [],
       dislikedBy: [],
     },
@@ -21,9 +21,22 @@ export const posts = [
     lastName : "Gurung",
     username: "anupkmr",
     profileImg : "https://raw.githubusercontent.com/anupkgurung/images/main/social/anup.jpg",
-    createdAt: formatDate(),
-    updatedAt: formatDate(),
-    comments: [],
+    createdAt: "2022-06-02T17:10:52+05:30",
+    updatedAt: "2022-06-02T17:10:52+05:30",
+    comments: [
+      {
+        _id: uuid(),
+        firstName : "Praveen",
+        lastName : "Rawat",
+        username: "praveenrawat",
+        text: "Interesting",
+        profileImg:"https://raw.githubusercontent.com/anupkgurung/images/main/social/praveenrawat.jpg",
+        votes: {
+          upvotedBy: [],
+          downvotedBy: [],
+        },
+      },
+    ],
   },
   {
     _id: uuid(),
@@ -31,7 +44,7 @@ export const posts = [
       "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
     media : {},
       likes: {
-      likeCount: 0,
+      likeCount: 3,
       likedBy: [],
       dislikedBy: [],
     },
@@ -59,8 +72,8 @@ export const posts = [
     lastName : "Gurung",
     username: "anupkmr",
     profileImg : "https://raw.githubusercontent.com/anupkgurung/images/main/social/anup.jpg",
-    createdAt: formatDate(),
-    updatedAt: formatDate(),
+    createdAt: "2022-06-27T17:10:52+05:30",
+    updatedAt: "2022-06-27T17:10:52+05:30",
     comments: [],
   },
   {
@@ -77,8 +90,8 @@ export const posts = [
     lastName : "Gurung",
     username: "anupkmr",
     profileImg : "https://raw.githubusercontent.com/anupkgurung/images/main/social/anup.jpg",
-    createdAt: formatDate(),
-    updatedAt: formatDate(),
+    createdAt: "2022-06-29T17:10:52+05:30",
+    updatedAt: "2022-06-29T17:10:52+05:30",
     comments: [
       {
         _id: uuid(),
@@ -158,8 +171,8 @@ export const posts = [
     username: "kamtaajay",
     profileImg : "https://raw.githubusercontent.com/anupkgurung/images/main/social/kamtaajay.jpg",
     comments: [],
-    createdAt: formatDate(),
-    updatedAt: formatDate(),
+    createdAt: "2022-06-07T17:10:52+05:30",
+    updatedAt: "2022-06-07T17:10:52+05:30",
   },
   {
     _id: uuid(),
@@ -257,7 +270,7 @@ export const posts = [
       "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
     media : {},
     likes: {
-      likeCount: 0,
+      likeCount: 1,
       likedBy: [],
       dislikedBy: [],
     },
@@ -266,8 +279,8 @@ export const posts = [
     username: "praveenrawat",
     profileImg : "https://raw.githubusercontent.com/anupkgurung/images/main/social/praveenrawat.jpg",
     comments: [],
-    createdAt: formatDate(),
-    updatedAt: formatDate(),
+    createdAt: "2022-06-02T17:10:52+05:30",
+    updatedAt: "2022-06-02T17:10:52+05:30",
   },
   {
     _id: uuid(),
@@ -275,7 +288,7 @@ export const posts = [
       "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
     media : {},
     likes: {
-      likeCount: 0,
+      likeCount: 2,
       likedBy: [],
       dislikedBy: [],
     },

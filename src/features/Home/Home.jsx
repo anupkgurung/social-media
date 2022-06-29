@@ -3,10 +3,11 @@ import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { UserFeed, Aside } from "../../component"
 import { usePost, useAuth, getUserPosts,createPost } from "../../features"
+import { setSortBy } from "../Post/postSlice"
 
 export const Home = () => {
 
-    const { posts } = usePost()
+    let { posts, sortBy } = usePost()
     const {userInfo} = useAuth()
     const dispatch = useDispatch()
     const[postData,setPostData] = useState({content:null,media:null,profileImg:null})
@@ -14,15 +15,33 @@ export const Home = () => {
     const handleSetPostData = (e) => {
         setPostData(postData => ({
             ...postData,
-            [e.target.id] : e.target.value
+            [e.target.id] : e.target.value,
+            profileImg : userInfo.profileImg
         }))
     }
     const handleCreatePost = () => {
+       dispatch(setSortBy(""))
        dispatch(createPost(postData))
     }
+
+    const getSortedPost = (sortBy) => {
+        if(sortBy === "like"){
+            return [...posts].sort((p1,p2) => p2.likes.likeCount - p1.likes.likeCount)
+        }else if(sortBy === "date"){
+            return [...posts].sort((p1,p2) => new Date(p1.updatedAt) - new Date(p2.updatedAt))
+        }else {
+            return posts
+        }
+    }
+    posts = getSortedPost(sortBy)
+
+    const handleSortBy = (sortBy) => {
+        dispatch(setSortBy(sortBy))
+    }
+
     useEffect(() => {
         userInfo?.username && dispatch(getUserPosts(userInfo.username))
-        setPostData(postData => ({...postData, profileImg : userInfo.profileImg}))
+        //setPostData(postData => ({...postData, profileImg : userInfo.profileImg}))
     }, [dispatch])
 
     return (
@@ -47,15 +66,19 @@ export const Home = () => {
                     </div>
                     <div className="flex items-center gap-2 my-6">
                         {/* <span className="flex-shrink-0 text-sm font-semibold">Sort by:</span> */}
-                        <button title="Sort by Recent" className="w-full border flex items-center justify-center font-semibold py-2 px-4 rounded border-blue-400 text-sm">
+                        <button title="Sort by Latest" className="w-full border flex items-center justify-center font-semibold py-2 px-4 rounded border-blue-400 text-sm"
+                             onClick={()=>handleSortBy("date")}
+                        >
                             <span className="material-icons-outlined mr-2">sort</span>Latest
                         </button>
-                        <button title="Sort by Trending" className="w-full border flex items-center justify-center font-semibold py-2 px-4 rounded border-blue-400 text-sm">
+                        <button title="Sort by Trending" className="w-full border flex items-center justify-center font-semibold py-2 px-4 rounded border-blue-400 text-sm"
+                            onClick={()=>handleSortBy("like")}
+                        >
                             <span className="material-icons-outlined mr-2">trending_up</span>Trending
                         </button>
                     </div>
                 </div>
-                {posts?.map((post, id) => (
+                {posts?.filter(post => post.username === userInfo.username).map((post, id) => (
                     <UserFeed post={post} key={id} />
                 ))}
             </main>
