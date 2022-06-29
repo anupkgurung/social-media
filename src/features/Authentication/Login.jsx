@@ -1,9 +1,28 @@
 import { Link, useNavigate } from "react-router-dom"
+import {useState} from "react"
 import { Button, Input } from "../../component";
+import { useDispatch } from "react-redux";
+import { useAuth, userLogin } from "./authSlice";
+import { useEffect } from "react";
 
 
 export const Login = () => {
 
+    const dispatch = useDispatch()
+    const {isLogin} = useAuth()
+    const navigate = useNavigate()
+    const [credentials, setCredentials] = useState({ username:null,password : null});
+    const changeHandler = (e) => {
+        setCredentials(credentials => ({
+            ...credentials,
+            [e.target.id] : e.target.value
+        }))
+    }
+
+    useEffect(()=>{
+        isLogin && navigate("/",{replace:true})
+    }
+    )
     return (
         <div className="flex justify-center pt-20">
             <div className="p-6 rounded-lg shadow-lg bg-white max-w-sm w-96">
@@ -11,15 +30,19 @@ export const Login = () => {
                     <div className="form-group mb-6">
                         <label htmlFor="email" className="form-label flex mb-2 text-gray-700">Email address</label>
                         <Input type={"email"}
-                            eleId={'email'}
+                            eleId={'username'}
                             placeHolder={"Enter email"}
+                            value={credentials.username}
+                            onChangeHandler={changeHandler}
                         />                      
                     </div>
                     <div className="form-group mb-6">
                         <label htmlFor="password" className="form-label flex mb-2 text-gray-700">Password</label>
-                        <Input type={"email"}
+                        <Input type={"password"}
                             eleId={'password'}
                             placeHolder={"Password"}
+                            value={credentials.password}
+                            onChangeHandler={changeHandler}
                         />
                     </div>
                     <div className="flex justify-between items-center mb-6">
@@ -31,9 +54,11 @@ export const Login = () => {
                         </div>
                         <Link to={"/login"}
                             className="text-blue-600 hover:text-blue-700 focus:text-blue-700 transition duration-200 ease-in-out">Forgot
-                            password?</Link>
+                            password?
+                        </Link>
                     </div>
-                    <Button caption={"Sign in"} />
+                    <Button caption={"Sign in"}
+                     clickHandler={()=>dispatch(userLogin(credentials))}/>
                     <p className="text-gray-800 mt-6 text-center">Not a member? 
                         <Link to={"/signup"} className="text-blue-600 hover:text-blue-700 focus:text-blue-700 transition duration-200 ease-in-out">Register</Link>
                     </p>

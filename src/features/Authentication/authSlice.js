@@ -26,28 +26,36 @@ export const userSignup = createAsyncThunk(
 const authSlice = createSlice({
     name : "auth",
     initialState,
-    reducers :{},
+    reducers :{
+        logoutUser : (state)=>{
+            state.isLogin =false
+        } 
+    },
     extraReducers : (builder)=>{
         builder
             .addCase(userSignup.pending,(state,{payload})=> {
                 state.isLoading = true
             })
-            .addCase(userSignup.fulfilled,(state,{payload})=> {
+            .addCase(userSignup.fulfilled,(state,{payload : {data}})=> {
                 state.isLoading = false
                 state.isLogin =true
+                state.userInfo = data?.createdUser
+                localStorage.setItem("login-token",data?.encodedToken)
             })
             .addCase(userSignup.rejected,(state,{payload})=> {
                 state.isLoading = false
                 state.isLogin =false
+         
                 state.error = payload.response?.data?.errors[0]
             })
             .addCase(userLogin.pending,(state,{payload})=>{
                 state.isLoading = true
             })
-            .addCase(userLogin.fulfilled,(state,{payload})=>{
+            .addCase(userLogin.fulfilled,(state,{payload : {data}})=>{
                 state.isLoading = false
                 state.isLogin =true
-                state.userInfo = payload
+                state.userInfo = data?.foundUser
+                localStorage.setItem("login-token",data?.encodedToken)
             })
             .addCase(userLogin.rejected,(state,{payload})=>{
                 state.isLoading = false
@@ -59,5 +67,5 @@ const authSlice = createSlice({
 })
 
 export const authReducer = authSlice.reducer;
-export const {loggedInUser} = authSlice.actions;
+export const {logoutUser} = authSlice.actions;
 export const useAuth =()=> useSelector((state) => state.auth)
