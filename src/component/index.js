@@ -7,3 +7,4 @@ export {LeftSidebar} from "./Sidebar/LeftSidebar"
 export {RightSidebar} from "./Sidebar/RightSidebar";
 export {Aside} from "./Aside/Aside";
 export {Comment} from "./Comment/Comment";
+export {Modal} from "./Modal/Modal"

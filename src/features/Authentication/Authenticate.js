@@ -6,7 +6,7 @@ export const Authenticate = () => {
    const location = useLocation()
    return (
        <>
-            {true ? <Outlet/> : <Navigate to="/login" state={{from:location}} replace />}
+            {isLogin ? <Outlet/> : <Navigate to="/login" state={{from:location}} replace />}
        </>
    )
 }

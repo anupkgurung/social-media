@@ -7,4 +7,4 @@ export {usePost, postReducer,getAllPosts,likePost,dislikePost,deletePost,editPos
 export {Explore} from "./Explore/Explore";
 export {Bookmark} from "./Bookmark/Bookmark"
 export {Profile} from "./Profile/Profile";
-export {useUser,userReducer,getAllUser,getBookmarks,addToBookmark,deleteBookmark} from "./User/userSlice";
+export {useUser,userReducer,getAllUser,getBookmarks,addToBookmark,deleteBookmark,setEditProfile,getUser,editUser,followUser,unFollowUser} from "./User/userSlice";
