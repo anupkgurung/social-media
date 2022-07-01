@@ -11,6 +11,22 @@ export const getAllUser = createAsyncThunk(
     }
 )
 
+export const getUser = createAsyncThunk(
+    "user/getUser",
+    async(userId,{rejectWithValue})=>{
+        const {data : {user}} = await _get(`/api/users/${userId}`,rejectWithValue)
+        return user
+    }
+)
+
+export const editUser = createAsyncThunk(
+    "user/editUser",
+    async(userData,{rejectWithValue})=>{
+        const {data :{user}} = await _post("/api/users/edit",{userData},rejectWithValue)
+        return user
+    }
+)
+
 export const getBookmarks = createAsyncThunk(
     "user/getBookmarks",
     async(_,{rejectWithValue})=>{
@@ -34,16 +50,38 @@ export const deleteBookmark = createAsyncThunk(
         return data
     }
 )
+
+export const followUser = createAsyncThunk(
+    "user/followUser",
+    async(followUserId,{rejectWithValue})=>{
+        const {data : {user}} = await _doPost(`/api/users/follow/${followUserId}`)
+        return user
+    }
+)
+export const unFollowUser = createAsyncThunk(
+    "user/unFollowUser",
+    async(followUserId,{rejectWithValue})=>{
+        const {data : {user}} = await _doPost(`/api/users/unfollow/${followUserId}`)
+        return user
+    }
+)
+
 const userSlice = createSlice({
     name : "user",
     initialState : {
-        user : [],
+        user : {},
+        userList :[],
         bookmarks :[],
         followers : 0,
         isLoading:false,
-        error:null
+        error:null,
+        isEditProfile : false
     },
-    reducers : {},
+    reducers : {
+        setEditProfile : (state)=> {
+            state.isEditProfile = !state.isEditProfile
+        }
+    },
     extraReducers : (builder) => {
         builder
         .addCase(getAllUser.pending,(state)=>{
@@ -51,15 +89,26 @@ const userSlice = createSlice({
         })
         .addCase(getAllUser.fulfilled,(state,{payload})=>{
             state.isLoading = false
-            state.user = payload?.users
+            state.userList = payload?.users
         })
         .addCase(getAllUser.rejected,(state,{payload})=>{
             state.error = payload?.response?.data?.errors[0]
         })
-        //get all bookmarks
-        .addCase(getBookmarks.pending,(state)=>{
-            state.isLoading = true
+        .addCase(getUser.fulfilled,(state,{payload})=>{
+            state.isLoading = false
+            state.user = payload
         })
+        .addCase(getUser.rejected,(state,{payload})=>{
+            state.error = payload?.response?.data?.errors[0]
+        })
+        .addCase(editUser.fulfilled,(state,{payload})=>{
+            state.isLoading = false
+            state.user = payload
+        })
+        .addCase(editUser.rejected,(state,{payload})=>{
+            state.error = payload?.response?.data?.errors[0]
+        })
+        //get all bookmarks
         .addCase(getBookmarks.fulfilled,(state,{payload})=>{
             state.isLoading = false
             state.bookmarks = payload?.bookmarks
@@ -68,9 +117,6 @@ const userSlice = createSlice({
             state.error = payload?.response?.data?.errors[0]
         })
         //add to bookmark
-        .addCase(addToBookmark.pending,(state)=>{
-            state.isLoading = true
-        })
         .addCase(addToBookmark.fulfilled,(state,{payload})=>{
             state.isLoading = false
             state.bookmarks = payload
@@ -79,9 +125,6 @@ const userSlice = createSlice({
             state.error = payload?.response?.data?.errors[0]
         })
         //delete bookmark
-        .addCase(deleteBookmark.pending,(state)=>{
-            state.isLoading = true
-        })
         .addCase(deleteBookmark.fulfilled,(state,{payload})=>{
             state.isLoading = false
             state.bookmarks = payload?.bookmarks
@@ -89,8 +132,24 @@ const userSlice = createSlice({
         .addCase(deleteBookmark.rejected,(state,{payload})=>{
             state.error = payload?.response?.data?.errors[0]
         })
+        //follow user
+        .addCase(followUser.fulfilled,(state,{payload})=>{
+            state.isLoading = false
+            state.user = payload
+        })
+        .addCase(followUser.rejected,(state,{payload})=>{
+            state.error = payload?.response?.data?.errors[0]
+        })
+        .addCase(unFollowUser.fulfilled,(state,{payload})=>{
+            state.isLoading = false
+            state.user = payload
+        })
+        .addCase(unFollowUser.rejected,(state,{payload})=>{
+            state.error = payload?.response?.data?.errors[0]
+        })
     }
 })
 
 export const userReducer = userSlice.reducer
 export const useUser = () => useSelector(state => state.user)
+export const {setEditProfile} = userSlice.actions

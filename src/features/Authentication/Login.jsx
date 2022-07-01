@@ -19,17 +19,25 @@ export const Login = () => {
         }))
     }
 
+    const handleLogin = (e)=>{
+        e.preventDefault()
+        dispatch(userLogin(credentials))
+    }
+    const handleTestLogin = (e) => {
+        e.preventDefault()
+        dispatch(userLogin({username:'anupkmr',password:'akg123'}))
+    }
     useEffect(()=>{
         isLogin && navigate("/",{replace:true})
-    }
-    )
+    },[isLogin])
+
     return (
         <div className="flex justify-center pt-20">
             <div className="p-6 rounded-lg shadow-lg bg-white max-w-sm w-96">
                 <form>
                     <div className="form-group mb-6">
                         <label htmlFor="email" className="form-label flex mb-2 text-gray-700">Email address</label>
-                        <Input type={"email"}
+                        <Input type={"text"}
                             eleId={'username'}
                             placeHolder={"Enter email"}
                             value={credentials.username}
@@ -58,7 +66,10 @@ export const Login = () => {
                         </Link>
                     </div>
                     <Button caption={"Sign in"}
-                     clickHandler={()=>dispatch(userLogin(credentials))}/>
+                     clickHandler={handleLogin}/>
+                    <Button caption={"Login with Test User"}
+                     clickHandler={handleTestLogin}/>
+
                     <p className="text-gray-800 mt-6 text-center">Not a member? 
                         <Link to={"/signup"} className="text-blue-600 hover:text-blue-700 focus:text-blue-700 transition duration-200 ease-in-out">Register</Link>
                     </p>
