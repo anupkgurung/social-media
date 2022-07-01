@@ -33,7 +33,7 @@ export const Signup = () => {
 
     useEffect(()=>{
         isLogin && navigate("/",{replace:true})
-    })
+    },[isLogin])
 
     return (
         <div className="flex justify-center pt-20">

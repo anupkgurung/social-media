@@ -41,6 +41,7 @@ const authSlice = createSlice({
                 state.isLogin =true
                 state.userInfo = data?.createdUser
                 localStorage.setItem("login-token",data?.encodedToken)
+                localStorage.setItem("loggedUser",data?.createdUser)
             })
             .addCase(userSignup.rejected,(state,{payload})=> {
                 state.isLoading = false
@@ -56,6 +57,7 @@ const authSlice = createSlice({
                 state.isLogin =true
                 state.userInfo = data?.foundUser
                 localStorage.setItem("login-token",data?.encodedToken)
+                localStorage.setItem("loggedUser",data?.foundUser)
             })
             .addCase(userLogin.rejected,(state,{payload})=>{
                 state.isLoading = false
