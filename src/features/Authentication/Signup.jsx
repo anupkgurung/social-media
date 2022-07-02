@@ -10,7 +10,7 @@ export const Signup = () => {
     const {isLogin} = useAuth()
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    
+    const [showPassword, setShowPassword] = useState(false)
     const initialSingupData = {
         firstName : null,
         lastName : null,
@@ -68,7 +68,7 @@ export const Signup = () => {
                     />
                 </div>
                 <div className="form-group mb-6">
-                    <Input type={"password"}
+                    <Input type={showPassword ? "text" : "password"}
                         eleId={'password'}
                         placeHolder={"Password"}
                         value={initialSingupData.password}
@@ -78,6 +78,7 @@ export const Signup = () => {
                 <div className="form-group form-check flex mb-6">
                     <Input type={"checkbox"}
                         eleId={"showPassword"}
+                        onChangeHandler={()=>setShowPassword(showPassword => !showPassword)}
                     />
                     <label className="form-check-label inline-block text-gray-800" htmlFor="showPassword">Show Password</label>
                 </div>
