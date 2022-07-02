@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { useUser, setEditProfile, editUser, setProfileImge } from "../../features"
+import {toast} from "react-toastify"
 
 export const Modal =()=>{
     
@@ -22,13 +23,17 @@ export const Modal =()=>{
     }
 
     const handleUploadPhoto = (e) => {
-        console.log(e.target.files[0])
         setNewImage(e.target.files[0])
     }
 
     const handleEditProfile = () => {
-        dispatch(editUser(userData))
+        dispatch(editUser(userData)).unwrap()
+        .then(()=>toast.success("Profile Updated"))
+        .catch((error)=>{
+            toast.error("Error occured, profile update failed")
+        })
         dispatch(setProfileImge(newImage))
+        dispatch(setEditProfile())
     }
     
     return (

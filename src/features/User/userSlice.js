@@ -6,63 +6,96 @@ import { _get, _post, _doPost, _delete } from "../../service";
 export const getAllUser = createAsyncThunk(
     "user/getAllUser",
     async(_,{rejectWithValue})=>{
-        const {data} = await _get("/api/users",rejectWithValue)
-        return data
+        try {
+            const {data} = await _get("/api/users",rejectWithValue)
+            return data
+        } catch (error) {
+            rejectWithValue(error)
+        }
     }
 )
 
 export const getUser = createAsyncThunk(
     "user/getUser",
     async(userId,{rejectWithValue})=>{
-        const {data : {user}} = await _get(`/api/users/${userId}`,rejectWithValue)
-        return user
+        try {
+            const {data : {user}} = await _get(`/api/users/${userId}`,rejectWithValue)
+            return user
+        } catch (error) {
+            rejectWithValue(error)
+        }
     }
 )
 
 export const editUser = createAsyncThunk(
     "user/editUser",
     async(userData,{rejectWithValue})=>{
-        const {data :{user}} = await _post("/api/users/edit",{userData},rejectWithValue)
-        return user
+        try {
+            const {data :{user}} = await _post("/api/users/edit",{userData},rejectWithValue)
+            return user
+        } catch (error) {
+            rejectWithValue(error)
+        }
     }
 )
 
 export const getBookmarks = createAsyncThunk(
     "user/getBookmarks",
     async(_,{rejectWithValue})=>{
-        const {data} = await _get("/api/users/bookmark/",rejectWithValue)
-        return data
+        try {
+            const {data} = await _get("/api/users/bookmark/",rejectWithValue)
+            return data
+        } catch (error) {
+            rejectWithValue(error)
+        }
+       
     }
 )
 
 export const addToBookmark = createAsyncThunk(
     "user/addToBookmark",
     async(postId,{rejectWithValue})=>{
-        const {data : {bookmarks}} = await _doPost(`/api/users/bookmark/${postId}`,rejectWithValue)
-        return bookmarks
+        try {
+            const {data : {bookmarks}} = await _doPost(`/api/users/bookmark/${postId}`,rejectWithValue)
+            return bookmarks
+        } catch (error) {
+            rejectWithValue(error)
+        }
     }
 )
 
 export const deleteBookmark = createAsyncThunk(
     "user/deleteBookmark",
     async(postId,{rejectWithValue})=>{
-        const {data} = await _delete(`/api/users/remove-bookmark/${postId}`,rejectWithValue)
-        return data
+        try {
+            const {data} = await _delete(`/api/users/remove-bookmark/${postId}`,rejectWithValue)
+            return data
+        } catch (error) {
+            rejectWithValue(error)
+        }
     }
 )
 
 export const followUser = createAsyncThunk(
     "user/followUser",
     async(followUserId,{rejectWithValue})=>{
-        const {data : {user}} = await _doPost(`/api/users/follow/${followUserId}`)
-        return user
+        try {
+            const {data : {user}} = await _doPost(`/api/users/follow/${followUserId}`)
+            return user
+        } catch (error) {
+            rejectWithValue(error)
+        }
     }
 )
 export const unFollowUser = createAsyncThunk(
     "user/unFollowUser",
     async(followUserId,{rejectWithValue})=>{
-        const {data : {user}} = await _doPost(`/api/users/unfollow/${followUserId}`)
-        return user
+        try {
+            const {data : {user}} = await _doPost(`/api/users/unfollow/${followUserId}`)
+            return user
+        } catch (error) {
+            rejectWithValue(error)
+        }
     }
 )
 
@@ -96,7 +129,7 @@ const userSlice = createSlice({
             state.userList = payload?.users
         })
         .addCase(getAllUser.rejected,(state,{payload})=>{
-            state.error = payload?.response?.data?.errors[0]
+            state.userList = []
         })
         .addCase(getUser.fulfilled,(state,{payload})=>{
             state.isLoading = false
@@ -126,7 +159,7 @@ const userSlice = createSlice({
             state.bookmarks = payload
         })
         .addCase(addToBookmark.rejected,(state,{payload})=>{
-            state.error = payload?.response?.data?.errors[0]
+            state.bookmarks = []
         })
         //delete bookmark
         .addCase(deleteBookmark.fulfilled,(state,{payload})=>{
@@ -142,14 +175,14 @@ const userSlice = createSlice({
             state.user = payload
         })
         .addCase(followUser.rejected,(state,{payload})=>{
-            state.error = payload?.response?.data?.errors[0]
+            state.user = {}
         })
         .addCase(unFollowUser.fulfilled,(state,{payload})=>{
             state.isLoading = false
             state.user = payload
         })
         .addCase(unFollowUser.rejected,(state,{payload})=>{
-            state.error = payload?.response?.data?.errors[0]
+            state.user = []
         })
     }
 })

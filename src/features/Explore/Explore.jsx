@@ -2,9 +2,11 @@ import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { UserFeed, Aside } from "../../component"
 import { usePost, getAllPosts } from ".."
+import { useDocumentTitle } from "../../customhook/useDocumentTitle"
 
 export const Explore = () => {
 
+    useDocumentTitle("Explore")
     const { posts } = usePost()
     const dispatch = useDispatch()
    

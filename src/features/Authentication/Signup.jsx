@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, Input } from "../../component";
 import { useAuth, userSignup } from "./authSlice";
-
+import {toast} from  "react-toastify"
 
 export const Signup = () => {
 
@@ -25,9 +25,14 @@ export const Signup = () => {
             [e.target.id] : e.target.value
         }))
     }
+    
     const signup = (e) => {
         e.preventDefault()
-        dispatch(userSignup(credentials))
+        dispatch(userSignup(credentials)).unwrap()
+            .then(()=>toast.success("Signup Successfull"))
+            .catch((error)=>{
+                toast.error(error)
+            })
     }
 
     useEffect(()=>{
@@ -55,9 +60,9 @@ export const Signup = () => {
                     </div>
                 </div>
                 <div className="form-group mb-6">
-                    <Input type={"email"}
+                    <Input type={"text"}
                         eleId={'username'}
-                        placeHolder={"Enter email"}
+                        placeHolder={"Enter username"}
                         value={initialSingupData.username}
                         onChangeHandler={changeHandler}
                     />

@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 import { likePost, dislikePost, deletePost, editPost, addToBookmark, deleteBookmark, useUser } from "../../features"
 import { Comment } from "../../component"
+import {toast} from "react-toastify"
 
 export const UserFeed = ({ post }) => {
 
@@ -42,9 +43,17 @@ export const UserFeed = ({ post }) => {
 
     const handleAddToBookmark = (id) => {
         if (!isBookmarked) {
-            dispatch(addToBookmark(id))
+            dispatch(addToBookmark(id)).unwrap()
+            .then(()=>toast.success("Bookmark Added succesfully"))
+            .catch((error)=>{
+                toast.error("Failed to add bookmark")
+            })
         } else {
-            dispatch(deleteBookmark(id))
+            dispatch(deleteBookmark(id)).unwrap()
+            .then(()=>toast.success("Bookmark Removed succesfully"))
+            .catch((error)=>{
+                toast.error("Failed to remove bookmark")
+            })
         }
     }
         

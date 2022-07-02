@@ -11,15 +11,36 @@ const initialState = {
 
 export const userLogin = createAsyncThunk(
     "auth/login",
-    (userCredential,{rejectWithValue})=>{
-        return _post("/api/auth/login",userCredential,rejectWithValue)    
+    async(userCredential,{rejectWithValue})=>{
+        try {
+            const {data} = await _post("/api/auth/login",userCredential,rejectWithValue)    
+            return data;
+        } catch (error) {
+            if(error.response.status == 404){
+                return rejectWithValue(error.response.data.errors[0])
+            }
+            else{
+                return rejectWithValue("Check username password")
+            }
+        }
     }
 )
 
 export const userSignup = createAsyncThunk(
     "auth/signup",
-     (userCredential,{rejectWithValue})=>{
-        return _post("/api/auth/signup",userCredential,rejectWithValue)    
+     async(userCredential,{rejectWithValue})=>{
+        try {
+            const {data} = await _post("/api/auth/signup",userCredential,rejectWithValue)  
+            return data  
+        } catch (error) {
+            if(error.response.status == 422){
+                return rejectWithValue(error.response.data.errors[0])
+            }
+            else{
+                return rejectWithValue("Error occured on registering, please try again later")
+            }
+        } 
+        
     }
 )
 
@@ -33,36 +54,35 @@ const authSlice = createSlice({
     },
     extraReducers : (builder)=>{
         builder
-            .addCase(userSignup.pending,(state,{payload})=> {
+            .addCase(userSignup.pending,(state)=> {
                 state.isLoading = true
             })
-            .addCase(userSignup.fulfilled,(state,{payload : {data}})=> {
+            .addCase(userSignup.fulfilled,(state,{payload})=> {
                 state.isLoading = false
                 state.isLogin =true
-                state.userInfo = data?.createdUser
-                localStorage.setItem("login-token",data?.encodedToken)
-                localStorage.setItem("loggedUser",data?.createdUser)
+                state.userInfo = payload?.createdUser
+                localStorage.setItem("login-token",payload?.encodedToken)
+                localStorage.setItem("loggedUser",payload?.createdUser)
             })
-            .addCase(userSignup.rejected,(state,{payload})=> {
+            .addCase(userSignup.rejected,(state)=> {
                 state.isLoading = false
                 state.isLogin =false
-         
-                state.error = payload.response?.data?.errors[0]
+                state.userInfo = {}
             })
-            .addCase(userLogin.pending,(state,{payload})=>{
+            .addCase(userLogin.pending,(state)=>{
                 state.isLoading = true
             })
-            .addCase(userLogin.fulfilled,(state,{payload : {data}})=>{
+            .addCase(userLogin.fulfilled,(state,{payload})=>{
                 state.isLoading = false
                 state.isLogin =true
-                state.userInfo = data?.foundUser
-                localStorage.setItem("login-token",data?.encodedToken)
-                localStorage.setItem("loggedUser",data?.foundUser)
+                state.userInfo = payload?.foundUser
+                localStorage.setItem("login-token",payload?.encodedToken)
+                localStorage.setItem("loggedUser",payload?.foundUser)
             })
-            .addCase(userLogin.rejected,(state,{payload})=>{
+            .addCase(userLogin.rejected,(state)=>{
                 state.isLoading = false
                 state.isLogin =false
-                state.error = payload.response?.data?.errors[0]
+                state.userInfo = {}
             })
     }
 
