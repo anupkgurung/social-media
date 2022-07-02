@@ -5,7 +5,7 @@ import { _get, _post, _doPost, _delete } from "../../service";
 export const getAllPosts = createAsyncThunk(
     "posts/getAllPosts",
     async(_,{rejectWithValue})=>{
-        const {data}  = await _get("/api/posts",rejectWithValue)
+        const {data} = await _get("/api/posts",rejectWithValue)
         return data
     }
 )
@@ -76,7 +76,7 @@ export const addComment = createAsyncThunk(
 
 export const getPostComment = createAsyncThunk(
     "posts/getPostComment",
-    async({postId,commentData},{rejectWithValue})=>{
+    async(postId,{rejectWithValue})=>{
         const {data : {comments}} = await _get(`/api/comments/${postId}`)
         return comments
     }
@@ -84,8 +84,8 @@ export const getPostComment = createAsyncThunk(
 
 export const editComment = createAsyncThunk(
     "posts/editComment",
-    async({postId,commentId},{rejectWithValue})=>{
-        const {data : {comments}} = await _doPost(`/api/comments/edit/${postId}/${commentId}`)
+    async({postId,commentId,commentData},{rejectWithValue})=>{
+        const {data : {comments}} = await _post(`/api/comments/edit/${postId}/${commentId}`,{commentData})
         return comments
     }
 )

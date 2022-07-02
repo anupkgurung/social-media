@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { LeftSidebar, RightSidebar } from "../../component"
-import { usePost, getAllUser, useUser, useAuth } from "../../features"
+import { getAllUser, useUser, useAuth } from "../../features"
 
 export const Aside = (sidebar) =>{
     const { sidebar :aside } = sidebar ;

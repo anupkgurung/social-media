@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { useSelector } from "react-redux";
-import {_get, _post} from "../../service";
+import {_post} from "../../service";
 
 const initialState = {
     userInfo : {},

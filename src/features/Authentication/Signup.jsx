@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Button, Input, Navigate } from "../../component";
-import { loggedInUser, useAuth, userSignup } from "./authSlice";
+import { useNavigate } from "react-router-dom";
+import { Button, Input } from "../../component";
+import { useAuth, userSignup } from "./authSlice";
 
 
 export const Signup = () => {
 
     const {isLogin} = useAuth()
     const dispatch = useDispatch()
-    const location = useLocation()
     const navigate = useNavigate()
     
     const initialSingupData = {
@@ -33,7 +32,7 @@ export const Signup = () => {
 
     useEffect(()=>{
         isLogin && navigate("/",{replace:true})
-    },[isLogin])
+    },[isLogin,navigate])
 
     return (
         <div className="flex justify-center pt-20">
