@@ -1,22 +1,18 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
-import { likePost, dislikePost, deletePost, editPost, addToBookmark, deleteBookmark, useUser, addComment, usePost, useAuth, getPost } from "../../features"
+import { likePost, dislikePost, deletePost, editPost, addToBookmark, deleteBookmark, useUser } from "../../features"
 import { Comment } from "../../component"
 
 export const UserFeed = ({ post }) => {
 
     const { bookmarks } = useUser()
-    const{comments,singlePost} =usePost()
-    const {userInfo} = useAuth()
     const [hasEditPost, setHasEditPost] = useState(false)
     const [newPostData, setNewPostData] = useState({ content: null, media: null })
     const [showComments, setShowComments] = useState(false)
-    const [postId,setPostId] = useState(null)
-
-    const [commentData, setCommentData] = useState({text:null,profileImg:userInfo.profileImg})
     const isBookmarked = bookmarks?.some(obj => obj._id === post._id)
     const hasLike = post.likes.likeCount > 0
+    const {newProfileImg} = useUser()
     const dispatch = useDispatch();
 
     const handleLikePost = (id) => {
@@ -51,18 +47,16 @@ export const UserFeed = ({ post }) => {
             dispatch(deleteBookmark(id))
         }
     }
-    
-    const handleAddComment = (postId)=>{
-        dispatch(addComment({postId,commentData}))
-    }
-    
+        
     return (
         <div>
             <article className="border rounded-lg my-4 md:mt-0 mx-auto shadow-md bg-white">
                 <section className="pr-2 pl-4 pt-4 flex items-center">
-                    <Link to={"/"} className="flex items-center" >
-                        <img src={post.profileImg}
-                            alt="profileImg" className=" cursor-pointer w-11 h-11 md:w-12 md:h-12 mr-4 border object-cover object-top rounded-full bg-gray-200 hover:opacity-40" />
+                    <Link to={"/profile"} className="flex items-center" >
+                        {!newProfileImg && <img src={post.profileImg}
+                            alt={post.username} className=" cursor-pointer w-11 h-11 md:w-12 md:h-12 mr-4 border object-cover object-top rounded-full bg-gray-200 hover:opacity-40" />}
+                        {newProfileImg && <img src={URL.createObjectURL(newProfileImg)}
+                           alt={post.username} className=" cursor-pointer w-11 h-11 md:w-12 md:h-12 mr-4 border object-cover object-top rounded-full bg-gray-200 hover:opacity-40" />}
                         <div>
                             <span className="font-semibold flex">{post.firstName} {post.lastName}</span>
                             <span className="text-gray-500 text-sm font-normal flex items-center line-clamp-1">
@@ -131,28 +125,8 @@ export const UserFeed = ({ post }) => {
                     </div>
                 </section>
                 {showComments && 
-                (<><div id="post-comment" className="flex flex-row border-t items-center justify-between p-4 mx-4">
-                    <div className="items-center w-full flex">
-                        <img src={post.profileImg}
-                            alt="profileImg" className="cursor-pointer w-9 h-9 md:w-10 md:h-10 mr-4 border object-cover object-top rounded-full bg-gray-200 hover:opacity-40" />
-                        <input className="outline-none border-b border-b-blue-400 h-8 text-base w-full dark:bg-gray-800" type="text" 
-                            onChange={(e)=>setCommentData(commentData => ({...commentData, text:e.target.value}))}
-                        />
-                        <button className="m-1 px-1 py-0.5 rounded hover:bg-blue-400 border-blue-400 text-sm"
-                            onClick={()=>handleAddComment(post._id)}
-                        >
-                            <span class="material-icons-outlined">reply</span>
-                        </button>
-                    </div>
-                </div>
-                    <>
-                        {post.comments.map(comment => (
-                            <Comment comment = {comment}/>
-                            )) 
-                        }
-                    </>
-                </>
-                )}
+                    <Comment postId = {post._id}/>           
+                 }
             </article>
         </div>
     )

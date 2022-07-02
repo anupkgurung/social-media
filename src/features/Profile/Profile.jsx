@@ -1,6 +1,5 @@
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { Link } from "react-router-dom"
 import { UserFeed, Aside, Modal } from "../../component"
 import { usePost, getUserPosts, useAuth, setEditProfile, useUser,getUser } from "../../features"
 
@@ -8,7 +7,7 @@ export const Profile = () => {
 
     let { posts } = usePost()
     const { userInfo } = useAuth()
-    const {user} = useUser()
+    const {user, newProfileImg} = useUser()
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -27,19 +26,25 @@ export const Profile = () => {
                                 className="cursor-pointer w-full h-full rounded-t-lg bg-gray-200" />
                         </div>
                         <div className="flex p-2 pt-4">
-                            <img src={user?.profileImg} alt={user?.username}
-                                className="cursor-pointer left-4 absolute top-28 w-36 h-36 md:w-36 md:h-36 mr-3 border-[5px] border-solid object-cover object-top flex-shrink-0 rounded-full border-white" />
+                            {!newProfileImg && <img src={user?.profileImg} alt={user?.username}
+                                className="cursor-pointer left-4 absolute top-28 w-36 h-36 md:w-36 md:h-36 mr-3 border-[5px] border-solid object-cover object-top flex-shrink-0 rounded-full border-white" />}
+                            {newProfileImg && <img src={URL.createObjectURL(newProfileImg)} alt={user?.username}
+                                className="cursor-pointer left-4 absolute top-28 w-36 h-36 md:w-36 md:h-36 mr-3 border-[5px] border-solid object-cover object-top flex-shrink-0 rounded-full border-white" />}
                             <button className="border ml-auto py-2 px-4 text-sm border-blue-400 rounded hover:bg-blue-400"
                                 onClick={() => dispatch(setEditProfile())}
                             > Edit Profile</button>
                         </div>
                         <div className="mx-3 flex flex-col p-2 px-2 pt-5">
-                            <div className="mr-auto"><span className="font-bold text-2xl">{user?.firstname} {user?.lastname}</span></div>
+                            <div className="mr-auto"><span className="font-bold text-2xl">{user?.firstName} {user?.lastName}</span></div>
                             <div className="mt-[-.25rem] mr-auto"><span className="text-lg text-gray-400">@{user?.username}</span></div>
                         </div>
                         <div className="flex mx-3 flex-col p-2 px-2 pt-2">
-                            <div className="mr-auto"><p className="text-base">{user?.bio}</p></div>
-                            <div className="mr-auto"><Link className="underline text-blue-400" to={user?.portfolio ? user?.portfolio : "/"}>{user?.portfolio}</Link></div>
+                            <div className="mr-auto">
+                                <p className="text-base">{user?.bio}</p>
+                            </div>
+                            <div className="mr-auto">
+                                {Object.keys(user).length !==0 && <a className="underline text-blue-400" rel="noreferrer" href={user.portfolio} target="_blank" >{user?.portfolio}</a>}
+                            </div>
                         </div>
                         <div className="flex mx-3 p-2 px-2 pt-2">
                             <div>

@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux"
 import { UserFeed, Aside } from "../../component"
 import { usePost, useAuth, getUserPosts,createPost } from "../../features"
 import { setSortBy } from "../Post/postSlice"
+import { useUser } from "../User/userSlice"
 
 export const Home = () => {
 
@@ -11,6 +12,7 @@ export const Home = () => {
     const {userInfo} = useAuth()
     const dispatch = useDispatch()
     const[postData,setPostData] = useState({content:null,media:null,profileImg:null})
+    const {newProfileImg} = useUser()
 
     const handleSetPostData = (e) => {
         setPostData(postData => ({
@@ -51,8 +53,10 @@ export const Home = () => {
                     <h4 className="font-semibold text-xl mb-4 text-center">Feed</h4>
                     <div className="rounded-lg border my-4 w-full md:mt-0 mx-auto shadow-md bg-white flex flex-col">
                         <div className="flex p-2 pt-4">
-                            <img src="https://raw.githubusercontent.com/anupkgurung/images/main/social/anup.jpg" alt="profileimg"
-                                className="w-11 h-11 md:w-12 md:h-12 mr-3 border object-cover object-top flex-shrink-0 rounded-full bg-gray-200" />
+                            {!newProfileImg && <img src={userInfo?.profileImg} alt={userInfo?.username}
+                                className="w-11 h-11 md:w-12 md:h-12 mr-3 border object-cover object-top flex-shrink-0 rounded-full bg-gray-200" />}
+                            {newProfileImg && <img src={URL.createObjectURL(newProfileImg)} alt={userInfo?.username}
+                                className="w-11 h-11 md:w-12 md:h-12 mr-3 border object-cover object-top flex-shrink-0 rounded-full bg-gray-200" />}
                             <textarea id="content" className="focus:outline-blue-400 bg-white w-full p-2 rounded-lg border" placeholder="What's in your mind ?" name="post" defaultValue={""} 
                                 onChange={handleSetPostData}
                             ></textarea>

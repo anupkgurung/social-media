@@ -75,11 +75,15 @@ const userSlice = createSlice({
         followers : 0,
         isLoading:false,
         error:null,
-        isEditProfile : false
+        isEditProfile : false,
+        newProfileImg : null
     },
     reducers : {
         setEditProfile : (state)=> {
             state.isEditProfile = !state.isEditProfile
+        },
+        setProfileImge : (state,{payload})=>{
+            state.newProfileImg = payload
         }
     },
     extraReducers : (builder) => {
@@ -152,4 +156,4 @@ const userSlice = createSlice({
 
 export const userReducer = userSlice.reducer
 export const useUser = () => useSelector(state => state.user)
-export const {setEditProfile} = userSlice.actions
+export const {setEditProfile, setProfileImge} = userSlice.actions
