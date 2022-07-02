@@ -1,7 +1,7 @@
 import "./App.css";
 import { useRoutes } from "react-router-dom"
 import { Login, Signup, Home, Authenticate, Explore, Bookmark, Profile } from "./features";
-import { Navbar } from "./component";
+import { Navbar, Toast } from "./component";
 
 function App() {
 
@@ -20,6 +20,7 @@ function App() {
 
   return (
     <div className="App">
+      <Toast />
       <Navbar />
       {routes}
     </div>

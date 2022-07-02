@@ -9,3 +9,4 @@ export {Aside} from "./Aside/Aside";
 export {Comment} from "./Comment/Comment";
 export {Modal} from "./Modal/Modal"
 export {MultipleComments} from "./Comment/MultipleComments"
+export {Toast} from "./Toast/Toast"
