@@ -4,10 +4,13 @@ import { Button, Input } from "../../component";
 import { useDispatch } from "react-redux";
 import { useAuth, userLogin } from "./authSlice";
 import { useEffect } from "react";
+import {toast} from "react-toastify";
+import { useDocumentTitle } from "../../customhook/useDocumentTitle";
 
 
 export const Login = () => {
 
+    useDocumentTitle("Login")
     const dispatch = useDispatch()
     const {isLogin} = useAuth()
     const navigate = useNavigate()
@@ -21,11 +24,15 @@ export const Login = () => {
 
     const handleLogin = (e)=>{
         e.preventDefault()
-        dispatch(userLogin(credentials))
+        dispatch(userLogin(credentials)).unwrap().then(
+            ()=>toast.success("Login Successfull")
+        ).catch((error)=>{
+            toast.error(error)
+        })
     }
     const handleTestLogin = (e) => {
         e.preventDefault()
-        dispatch(userLogin({username:'anupkmr',password:'akg123'}))
+        setCredentials({username:'anupkmr',password:'akg123'})
     }
     useEffect(()=>{
         isLogin && navigate("/",{replace:true})
@@ -67,7 +74,7 @@ export const Login = () => {
                     </div>
                     <Button caption={"Sign in"}
                      clickHandler={handleLogin}/>
-                    <Button caption={"Login with Test User"}
+                    <Button caption={"Use Test User"}
                      clickHandler={handleTestLogin}/>
 
                     <p className="text-gray-800 mt-6 text-center">Not a member? 

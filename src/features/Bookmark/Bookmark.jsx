@@ -1,15 +1,19 @@
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { UserFeed, Aside } from "../../component"
-import { getBookmarks,useUser } from "../../features"
+import { useDocumentTitle } from "../../customhook/useDocumentTitle"
+import { getBookmarks,useUser, usePost } from "../../features"
 
 export const Bookmark = () => {
+
+    useDocumentTitle("Bookmark")
     const { bookmarks } = useUser()
     const dispatch = useDispatch()
+    const {posts} = usePost()
 
     useEffect(()=>{
         dispatch(getBookmarks())
-    },[dispatch])
+    },[dispatch, posts])
    
     return (
         <div className="flex justify-center gap-4">

@@ -37,7 +37,7 @@ export const Comment = ({postId}) => {
             </div>
             {
                 comments && comments.map(comment => (
-                    <MultipleComments comment = {comment} postId={postId}/>
+                    <MultipleComments comment= {comment} postId={postId} key={comment._id}/>
                 ))
             }
         </>

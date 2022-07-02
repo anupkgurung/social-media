@@ -2,12 +2,14 @@ import { useState } from "react"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { UserFeed, Aside } from "../../component"
+import { useDocumentTitle } from "../../customhook/useDocumentTitle"
 import { usePost, useAuth, getUserPosts,createPost } from "../../features"
 import { setSortBy } from "../Post/postSlice"
 import { useUser } from "../User/userSlice"
 
 export const Home = () => {
 
+    useDocumentTitle("Home")
     let { posts, sortBy } = usePost()
     const {userInfo} = useAuth()
     const dispatch = useDispatch()
@@ -49,8 +51,7 @@ export const Home = () => {
         <div className="flex justify-center gap-4">
             <Aside sidebar={"left"}/>
             <main className="main pb-12 px-2 md:px-0 w-full mt-[4.2rem] md:mr-4 lg:mr-0 md:mt-[6.2rem] min-h-[calc(100vh-6.2rem)]">
-                <div className="mt-6 md:mt-0 mx-auto mb-4">
-                    <h4 className="font-semibold text-xl mb-4 text-center">Feed</h4>
+                <div className="mt-6 md:mt-0 mx-auto mb-4">                    
                     <div className="rounded-lg border my-4 w-full md:mt-0 mx-auto shadow-md bg-white flex flex-col">
                         <div className="flex p-2 pt-4">
                             {!newProfileImg && <img src={userInfo?.profileImg} alt={userInfo?.username}

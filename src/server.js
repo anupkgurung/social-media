@@ -107,7 +107,7 @@ export function makeServer({ environment = "development" } = {}) {
       this.post("users/edit", editUserHandler.bind(this));
       this.get("/users/bookmark", getBookmarkPostsHandler.bind(this));
       this.post("/users/bookmark/:postId/", bookmarkPostHandler.bind(this));
-      this.post(
+      this.delete(
         "/users/remove-bookmark/:postId/",
         removePostFromBookmarkHandler.bind(this)
       );

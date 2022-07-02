@@ -1,10 +1,12 @@
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { UserFeed, Aside, Modal } from "../../component"
+import { useDocumentTitle } from "../../customhook/useDocumentTitle"
 import { usePost, getUserPosts, useAuth, setEditProfile, useUser,getUser } from "../../features"
 
 export const Profile = () => {
 
+    useDocumentTitle("Profile")
     let { posts } = usePost()
     const { userInfo } = useAuth()
     const {user, newProfileImg} = useUser()
