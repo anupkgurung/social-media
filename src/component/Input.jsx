@@ -25,6 +25,10 @@ export const Input = ({type='',eleId='',placeHolder='',value="",onChangeHandler=
                                 onChange={onChangeHandler}
                 />
             )
+        case "default":
+            return (
+                <input type="text" className="border border-blue-400 outline-blue-400" />
+            )
     }
    
 }

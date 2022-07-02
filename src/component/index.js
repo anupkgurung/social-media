@@ -8,3 +8,4 @@ export {RightSidebar} from "./Sidebar/RightSidebar";
 export {Aside} from "./Aside/Aside";
 export {Comment} from "./Comment/Comment";
 export {Modal} from "./Modal/Modal"
+export {MultipleComments} from "./Comment/MultipleComments"
