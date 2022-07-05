@@ -4,9 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { Button, Input } from "../../component";
 import { useAuth, userSignup } from "./authSlice";
 import {toast} from  "react-toastify"
+import { useDocumentTitle } from "../../customhook/useDocumentTitle";
 
 export const Signup = () => {
 
+    useDocumentTitle("Signup")
     const {isLogin} = useAuth()
     const dispatch = useDispatch()
     const navigate = useNavigate()
