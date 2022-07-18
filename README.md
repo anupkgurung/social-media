@@ -1,70 +1,70 @@
-# Getting Started with Create React App
+## Getting Started
+- Clone the repository on your local machine using command below
+https://github.com/rohanmathur91/evolt-social.git
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```sh
+https://github.com/anupkgurung/social-media.git
+cd social-media
+```
+- Install dependencies (if you are using **yarn** then do with that)
 
-## Available Scripts
+```sh
+npm install
+```
 
-In the project directory, you can run:
+- Create a `.env` file at the root level of the directory and create a environment variables
 
-### `yarn start`
+```
+REACT_APP_JWT_SECRET = <JWT_SECRET_KEY_OF_YOUR_CHOICE>
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Start the server🚀
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+npm start
+```
 
-### `yarn test`
+## The Social Live
+[The Social](https://thesocial.vercel.app)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+## Technologies used
+- ReactJS
+- Tailwind CSS
+- Redux Toolkit
+- [Mockbee](https://mockbee.netlify.app/) for backend
+- React Router
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Features
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Authentication:
+- User can Sign-up/Login/logout
 
-### `yarn eject`
+User Feed(home):
+- User will able to see all his posts.
+- Feed can be sort based on recent and trending posts.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+User Profile:
+- User can add profile picture.
+- User can add bio along with portfolio link.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Explore:
+- Explore feed user can see all the tweets even of the people whom user don't follow
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Bookmark Post:
+- Every post on the user feed, user can see a "Bookmark" option where it can be bookmarked and added to the bookmark list.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Create post:
+- User can create post.
+- add coments or reply to a comment
+- like any post
 
-## Learn More
+Edit post:
+- User can edit any comment by him/her.
+- User can delete any cooment added by him/her.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Follow/Unfollow:
+- User can Follow or unfollow other users
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
