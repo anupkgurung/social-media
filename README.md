@@ -1,6 +1,6 @@
 ## Getting Started
 - Clone the repository on your local machine using command below
-https://github.com/rohanmathur91/evolt-social.git
+https://github.com/anupkgurung/social-media.git
 
 ```sh
 https://github.com/anupkgurung/social-media.git
