@@ -26,13 +26,18 @@ export const Home = () => {
     const handleCreatePost = () => {
        dispatch(setSortBy(""))
        dispatch(createPost(postData))
+       setPostData(postData => ({
+        ...postData,
+        content : "",
+        profileImg : userInfo.profileImg
+    }))
     }
 
     const getSortedPost = (sortBy) => {
         if(sortBy === "like"){
             return [...posts].sort((p1,p2) => p2.likes.likeCount - p1.likes.likeCount)
         }else if(sortBy === "date"){
-            return [...posts].sort((p1,p2) => new Date(p1.updatedAt) - new Date(p2.updatedAt))
+            return [...posts].sort((p1,p2) => new Date(p2.updatedAt) - new Date(p1.updatedAt))
         }else {
             return posts
         }
@@ -58,7 +63,8 @@ export const Home = () => {
                                 className="w-11 h-11 md:w-12 md:h-12 mr-3 border object-cover object-top flex-shrink-0 rounded-full bg-gray-200" />}
                             {newProfileImg && <img src={URL.createObjectURL(newProfileImg)} alt={userInfo?.username}
                                 className="w-11 h-11 md:w-12 md:h-12 mr-3 border object-cover object-top flex-shrink-0 rounded-full bg-gray-200" />}
-                            <textarea id="content" className="focus:outline-blue-400 bg-white w-full p-2 rounded-lg border" placeholder="What's in your mind ?" name="post" defaultValue={""} 
+                            <textarea id="content" className="focus:outline-blue-400 bg-white w-full p-2 rounded-lg border" placeholder="What's in your mind ?" name="post" 
+                                value={postData.content} 
                                 onChange={handleSetPostData}
                             ></textarea>
                         </div>

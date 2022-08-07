@@ -26,6 +26,9 @@ export const UserFeed = ({ post }) => {
 
     const handleDeletePost = (id) => {
         dispatch(deletePost(id))
+        if(isBookmarked){
+            handleDeleteBookmark(id)
+        }
     }
     const enableEditPost = () => {
         setHasEditPost(hasEditPost => !hasEditPost)
@@ -41,22 +44,28 @@ export const UserFeed = ({ post }) => {
         }))
     }
 
-    const handleAddToBookmark = (id) => {
+    const handleBookmark = (id) => {
         if (!isBookmarked) {
-            dispatch(addToBookmark(id)).unwrap()
+            handleAddToBookmark(id)
+        } else {
+            handleDeleteBookmark(id)
+        }
+    }
+    const handleAddToBookmark = (id) => {
+        dispatch(addToBookmark(id)).unwrap()
             .then(()=>toast.success("Bookmark Added succesfully"))
             .catch((error)=>{
                 toast.error("Failed to add bookmark")
             })
-        } else {
-            dispatch(deleteBookmark(id)).unwrap()
+    }
+    const handleDeleteBookmark = (id) => {
+        dispatch(deleteBookmark(id)).unwrap()
             .then(()=>toast.success("Bookmark Removed succesfully"))
             .catch((error)=>{
                 toast.error("Failed to remove bookmark")
             })
-        }
     }
-        
+
     return (
         <div>
             <article className="border rounded-lg my-4 md:mt-0 mx-auto shadow-md bg-white">
@@ -127,7 +136,7 @@ export const UserFeed = ({ post }) => {
                     </div>
                     <div>
                         <button className="w-10 h-10 flex items-center justify-center rounded-full hover:text-blue-500 hover:bg-blue-100"
-                            onClick={() => handleAddToBookmark(post._id)}
+                            onClick={() => handleBookmark(post._id)}
                         >
                             <span className="material-icons-outlined text-xl sm:text-[22px]">{isBookmarked ? 'bookmark' : 'bookmark_border'}</span>
                         </button>

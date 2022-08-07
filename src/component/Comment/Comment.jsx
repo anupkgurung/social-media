@@ -26,7 +26,7 @@ export const Comment = ({postId}) => {
                 <div className="items-center w-full flex">
                     <img src={userInfo.profileImg}
                         alt="profileImg" className="cursor-pointer w-9 h-9 md:w-10 md:h-10 mr-4 border object-cover object-top rounded-full bg-gray-200 hover:opacity-40" />
-                    <input className="outline-none border-b border-b-blue-400 h-8 text-base w-full dark:bg-gray-800" type="text" value={commentData.text}
+                    <input className="bg-white outline-none border-b border-b-blue-400 h-8 text-base w-full dark:bg-gray-800" type="text" value={commentData.text}
                         onChange={(e) => setCommentData(commentData => ({ ...commentData, text: e.target.value }))} />
                     <button className="m-1 px-1 py-0.5 rounded hover:bg-blue-400 border-blue-400 text-sm"
                         onClick={() => handleAddComment(postId)}

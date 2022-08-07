@@ -57,7 +57,7 @@ export const MultipleComments = ({comment,postId}) => {
                         }
                         {isEditComment && 
                             <>
-                                <input className="outline-none border-b border-b-blue-400 h-8 text-base w-full dark:bg-gray-800" type="text" value={editedCommenData}
+                                <input className="bg-white outline-none border-b border-b-blue-400 h-8 text-base w-full dark:bg-gray-800" type="text" value={editedCommenData}
                                     onChange={(e) => setEditedCommentData(e.target.value)} />
                                 <button className="m-1 px-1 pt-2 rounded hover:bg-blue-400 border-blue-400 text-sm"
                                     onClick={()=>saveEditedComment(postId,comment._id)}
